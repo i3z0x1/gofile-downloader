@@ -44,7 +44,7 @@ def _print(_str: str) -> None:
 # increase max_workers for parallel downloads
 # defaults to 5 download at time
 class Main:
-    def __init__(self, url: str, password: str | None = None, max_workers: int = 5) -> None:
+    def __init__(self, url: str, password: "str | None" = None, max_workers: int = 5) -> None:
         try:
             if not url.split("/")[-2] == "d":
                 die(f"The url probably doesn't have an id in it: {url}")
@@ -53,14 +53,14 @@ class Main:
         except IndexError:
             die(f"Something is wrong with the url: {url}.")
 
-        self._downloaddir: str | None = getenv("GF_DOWNLOADDIR")
+        self._downloaddir: "str | None" = getenv("GF_DOWNLOADDIR")
 
         if self._downloaddir and path.exists(self._downloaddir):
             chdir(self._downloaddir)
 
         self._root_dir: str = path.join(getcwd(), self._id)
         self._token: str = self._getToken()
-        self._password: str | None = sha256(password.encode()).hexdigest() if password else None
+        self._password: "str | None" = sha256(password.encode()).hexdigest() if password else None
         self._max_workers: int = max_workers
 
         # list of dictionaries format files and its respective path, filename and link
@@ -168,7 +168,7 @@ class Main:
             part_size = int(path.getsize(filename))
             headers["Range"] = f"bytes={part_size}-"
 
-        has_size: str | None = None
+        has_size: "str | None" = None
         message: str = " "
 
         try:
@@ -257,7 +257,7 @@ class Main:
         )
 
 
-    def _parseLinks(self, _id: str, token: str, password: str | None = None) -> None:
+    def _parseLinks(self, _id: str, token: str, password: "str | None" = None) -> None:
         """
         Parses for possible links recursively and populate a list with file's info.
 
@@ -310,8 +310,8 @@ if __name__ == '__main__':
     try:
         from sys import argv
 
-        url: str | None = None
-        password: str | None = None
+        url: "str | None" = None
+        password: "str | None" = None
         argc: int = len(argv)
 
         if argc > 1:
